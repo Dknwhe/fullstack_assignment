@@ -1,5 +1,7 @@
 package se.ecutb.cai.fullstack_todo.dto;
 
+import se.ecutb.cai.fullstack_todo.entity.AppUser;
+
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
@@ -18,7 +20,7 @@ public class TodoItemForm {
     @FutureOrPresent(message = "Required*")
     private LocalDate deadline;
 
-    private boolean doneStatus;
+    private boolean doneStatus = false;
 
     @DecimalMin(value = "0.0", inclusive = false)
     private double reward;
@@ -66,4 +68,5 @@ public class TodoItemForm {
     public void setReward(double reward) {
         this.reward = reward;
     }
+
 }
