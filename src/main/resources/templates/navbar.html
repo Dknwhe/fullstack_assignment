@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation</title>
+</head>
+<body>
+    <nav th:fragment="navigation" class="navbar navbar-dark bg-dark">
+        <ul class="nav">
+            <li class="nav-item">
+                <div sec:authentication="hasAnyAuthority('ADMIN')">
+                    <a class="navbar-brand text-danger" th:href="@{/register}">Register</a>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-danger" th:href="@{/users/details}">Users</a>
+            </li>
+        </ul>
+
+        <form th:action="@{/logout}" class="form-inline" method="post">
+            <div sec:authorize="isAuthenticated()">
+                <button class="btn btn-outline-danger" type="submit" value="Logout">Logout</button>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <a class="btn btn-outline-danger" th:href="@{/login}" value="Login">Login</a>
+            </div>
+        </form>
+    </nav>
+
+</body>
+</html>

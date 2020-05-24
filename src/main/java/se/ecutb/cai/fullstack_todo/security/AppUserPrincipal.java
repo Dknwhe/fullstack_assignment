@@ -9,7 +9,7 @@ import java.util.Collection;
 public class AppUserPrincipal implements UserDetails {
 
     private AppUser appUser;
-    Collection<GrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
 
     public AppUserPrincipal(AppUser appUser, Collection<GrantedAuthority> authorities) {
         this.appUser = appUser;

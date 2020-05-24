@@ -71,5 +71,10 @@ public class AppUserController {
     public String getLoginForm() {
         return "login-form";
     }
+
+     @GetMapping("/accessdenied")
+    public String getAccessDenied() {
+        return "acess-denied";
+     }
 }
 
