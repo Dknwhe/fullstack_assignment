@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+    <meta charset="UTF-8">
+    <title>Create todo</title>
+</head>
+<body>
+
+    <nav th:replace="navbar :: Navbar"/>
+    <div class="container">
+        <form th:action="@{/process/todo}" th:object="${form}" method="post">
+            <label>Title</label>
+            <input class="form-control" type="text" id="title" name="title" th:field="*{itemTitle}">
+            <div th:if="${#fields.hasErrors('itemTitle')}">
+                <ul class="p-0">
+                    <li th:each="error : ${#fields.errors('itemTitle')}">
+                        <span class="form-error" th:text="${error}"></span>
+                    </li>
+                </ul>
+            </div>
+            <label>Description</label>
+            <input class="form-control" type="text" id="description" name="description" th:field="*{description}">
+            <div th:if="${#fields.hasErrors('description')}">
+                <ul class="p-0">
+                    <li th:each="error : ${#fields.errors('description')}">
+                        <span class="form-error" th:text="${error}"></span>
+                    </li>
+                </ul>
+            </div>
+            <label>Deadline</label>
+            <input class="form-control" type="date" id="deadline" name="deadline" th:field="*{deadline}">
+            <div th:if="${#fields.hasErrors('deadline')}">
+                <ul class="p-0">
+                    <li th:each="error : ${#fields.errors('deadline')}">
+                        <span class="form-error" th:text="${error}"></span>
+                    </li>
+                </ul>
+            </div>
+            <label>Reward</label>
+            <input class="form-control" type="text" id="reward" name="reward" th:field="*{reward}">
+            <div th:if="${#fields.hasErrors('reward')}">
+                <ul class="p-0">
+                    <li th:each="error : ${#fields.errors('reward')}">
+                        <span class="form-error" th:text="${error}"></span>
+                    </li>
+                </ul>
+            </div>
+            <input type="submit" class="btn btn-sm btn-primary">
+        </form>
+    </div>
+    </body>
+
+</body>
+</html>

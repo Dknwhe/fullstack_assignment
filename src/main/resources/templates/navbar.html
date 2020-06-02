@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
+
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+
     <meta charset="UTF-8">
     <title>Navigation</title>
+
 </head>
 <body>
-    <nav th:fragment="navigation" class="navbar navbar-dark bg-dark">
-        <ul class="nav">
-            <li class="nav-item">
-                <div sec:authentication="hasAnyAuthority('ADMIN')">
-                    <a class="navbar-brand text-danger" th:href="@{/register}">Register</a>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2" th:fragment="Navbar">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link mr-3 border-bottom" th:href="@{/details/{email} (email=${#authentication.name})}">My Details</a>
+                </li>
+                <li sec:authorize="isAnonymous() || hasAuthority('ADMIN')" class="nav-item">
+                    <a class="nav-link mr-3 border-bottom" th:href="@{/register}">Register user</a>
+                </li>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="nav-link mr-3 border-bottom" th:href="@{/users}">Users</a>
+                </li>
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="nav-link mr-3 border-bottom" th:href="@{/create/todo}">Create Todo</a>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" class="form-inline" method="post">
+                <div sec:authorize="isAuthenticated()">
+                    <button class="btn btn-outline-info" type="submit" value="Logout">Logout</button>
                 </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-danger" th:href="@{/users/details}">Users</a>
-            </li>
-        </ul>
-
-        <form th:action="@{/logout}" class="form-inline" method="post">
-            <div sec:authorize="isAuthenticated()">
-                <button class="btn btn-outline-danger" type="submit" value="Logout">Logout</button>
-            </div>
-            <div sec:authorize="isAnonymous()">
-                <a class="btn btn-outline-danger" th:href="@{/login}" value="Login">Login</a>
-            </div>
-        </form>
+                <div sec:authorize="isAnonymous()">
+                    <a class="btn btn-outline-info" th:href="@{/login}" value="Login">Login</a>
+                </div>
+            </form>
+        </div>
     </nav>
 
 </body>

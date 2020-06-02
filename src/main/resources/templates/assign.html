@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+    <meta charset="UTF-8">
+    <title>Assign</title>
+</head>
+<body>
+
+    <nav th:replace="navbar :: Navbar"/>
+    <div class="container">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Reward</th>
+                <th>ASSIGN</th>
+            </tr>
+            <tr th:each="todoItem : ${todoItemList}">
+                <td th:text="${todoItem.itemTitle}"></td>
+                <td th:text="${todoItem.description}"></td>
+                <td th:text="${todoItem.deadline}"></td>
+                <td th:text="${todoItem.reward}"></td>
+                <td th:if="${todoItem.assignee} == null">
+                    <form th:action="@{/users/assign/process/{id} (id=${todoItem.itemId})}" method="post">
+                        <input type="hidden" th:value="${email}" name="email">
+                        <input type="submit" class="btn btn-sm btn-primary">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

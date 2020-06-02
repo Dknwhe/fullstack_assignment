@@ -8,26 +8,35 @@ public class AppUserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roleId;
+    private int appRoleId;
     @Column(unique = true)
-    private Roles role;
+    private String role;
 
-    public AppUserRole(Roles role) {
+    public AppUserRole() {
+    }
+
+    public AppUserRole(String role){
         this.role = role;
     }
 
-    public AppUserRole () {}
-
-    public int getRoleId() {
-        return roleId;
+    public int getAppRoleId() {
+        return appRoleId;
     }
 
-    public Roles getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUserRole{" +
+                "appRoleId=" + appRoleId +
+                ", role='" + role + '\'' +
+                '}';
     }
 
     @Override
@@ -35,20 +44,12 @@ public class AppUserRole {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUserRole that = (AppUserRole) o;
-        return roleId == that.roleId &&
-                role == that.role;
+        return appRoleId == that.appRoleId &&
+                Objects.equals(role, that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, role);
-    }
-
-    @Override
-    public String toString() {
-        return "AppUserRole{" +
-                "roleId=" + roleId +
-                ", role=" + role +
-                '}';
+        return Objects.hash(appRoleId, role);
     }
 }

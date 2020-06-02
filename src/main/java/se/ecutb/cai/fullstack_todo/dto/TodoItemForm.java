@@ -1,14 +1,10 @@
 package se.ecutb.cai.fullstack_todo.dto;
 
-import se.ecutb.cai.fullstack_todo.entity.AppUser;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
+
 
 public class TodoItemForm {
-
-    @Positive
-    private int itemId;
 
     @NotBlank(message = "Title*")
     @Size(min = 2, message = "Minimum 2 letters")
@@ -17,17 +13,14 @@ public class TodoItemForm {
     @NotBlank(message = "Description*")
     private String description;
 
-    @FutureOrPresent(message = "Required*")
-    private LocalDate deadline;
+    @NotBlank
+    private String deadline;
 
     private boolean doneStatus = false;
 
     @DecimalMin(value = "0.0", inclusive = false)
     private double reward;
 
-    public int getItemId() {
-        return itemId;
-    }
 
     public String getItemTitle() {
         return itemTitle;
@@ -45,11 +38,11 @@ public class TodoItemForm {
         this.description = description;
     }
 
-    public LocalDate getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 

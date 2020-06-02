@@ -16,19 +16,22 @@ public class AppUserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
+
 
     @Override
     public String getPassword() {
         return appUser.getPassword();
     }
 
+
     @Override
     public String getUsername() {
-        return appUser.getUsername();
+        return appUser.getEmail();
     }
 
     @Override

@@ -11,11 +11,20 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 
     <meta charset="UTF-8">
-    <title>AccessDenied</title>
+    <title>Login</title>
+
 </head>
 <body>
+
+    <nav th:replace="navbar :: Navbar"/>
     <div class="container">
-        <h2>AccessDenied</h2>
+        <form th:action="@{/login}" method="post">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" name="email" id="email" placeholder="Enter your email..."/>
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password...">
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
     </div>
 
 </body>

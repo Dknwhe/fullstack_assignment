@@ -10,7 +10,6 @@ public class TodoItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int itemId;
-
     @Column(unique = true)
     private String itemTitle;
 
@@ -19,21 +18,22 @@ public class TodoItem {
     private Boolean doneStatus;
     private double reward;
 
-    @ManyToOne(cascade = {CascadeType.ALL},
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private AppUser assignee;
 
 
-    public TodoItem(String itemTitle, String description, LocalDate deadline, Boolean doneStatus, double reward) {
+    public TodoItem(String itemTitle, String description, LocalDate deadline, Boolean doneStatus, double reward, AppUser assignee) {
         this.itemTitle = itemTitle;
         this.description = description;
         this.deadline = deadline;
         this.doneStatus = doneStatus;
         this.reward = reward;
+        this.assignee = assignee;
     }
 
-    public TodoItem() {}
+    public TodoItem() {
+    }
 
     public int getItemId() {
         return itemId;

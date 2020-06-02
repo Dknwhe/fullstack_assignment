@@ -1,14 +1,15 @@
 package se.ecutb.cai.fullstack_todo.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class CreateAppUserForm {
 
-    @NotBlank(message = "Username pls..")
-    @Size(min = 2, max = 255, message = "Username required minimum 2 letter and max 255")
-    private String username;
+    @NotBlank(message = "Email pls..")
+    @Email(regexp = "^(\\D)+(\\w)*((\\.(\\w)+)?)+@(\\D)+(\\w)*((\\.(\\D)+(\\w)*)+)?(\\.)[a-z]{2,}$", message = "Your email is invalid")
+    private String email;
 
     @NotBlank(message = "First name*")
     @Size(min = 2, max = 255, message = "First name!")
@@ -19,19 +20,18 @@ public class CreateAppUserForm {
     private String lastName;
 
     @NotBlank(message = "Password*")
-    //http://regexlib.com/Search.aspx?k=password&c=-1&m=4&ps=20
-    @Pattern(regexp = "^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$\", message = \"Must contain at least one letter, one number, and be longer than six characters.")
+    @Pattern(regexp = "^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$", message = "Must contain at least one letter, one number, and be longer than six characters.")
     private String password;
 
     @NotBlank(message = "Password Confirm*")
     private String passwordConfirm;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {

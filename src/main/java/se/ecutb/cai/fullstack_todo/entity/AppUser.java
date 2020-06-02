@@ -9,11 +9,9 @@ public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-
+    private int appUserId;
     @Column(unique = true)
-    private String username;
-
+    private String email;
     private String firstName;
     private String lastName;
     private LocalDate regDate;
@@ -23,38 +21,47 @@ public class AppUser {
             cascade = {CascadeType.MERGE},
             fetch = FetchType.EAGER
     )
-
     @JoinTable(
-            name = "app_user_app_role",
-            joinColumns = @JoinColumn(name = "user_id"),
+            name = "app_user_app_user_role",
+            joinColumns = @JoinColumn(name = "app_user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<AppUserRole> roleSet;
+    private List<AppUserRole> appUserRoleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assignee")
-    private Set<TodoItem> todoItemList = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            mappedBy = "assignee")
+    private List<TodoItem> todoItemList = new ArrayList<>();
 
-
-    public AppUser(String username, String firstName, String lastName, LocalDate regDate, String password) {
-        this.username = username;
+    public AppUser(String email, String firstName, String lastName, LocalDate regDate, String password) {
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.regDate = regDate;
         this.password = password;
     }
 
-    public AppUser() {}
-
-    public int getUserId() {
-        return userId;
+    public AppUser() {
     }
 
-    public String getUsername() {
-        return username;
+    public boolean addTodo(TodoItem todoItem) {
+        if (!todoItemList.contains(todoItem)) {
+            todoItem.setAssignee(this);
+            return todoItemList.add(todoItem);
+        }
+        return false;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public int getAppUserId() {
+        return appUserId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -77,10 +84,6 @@ public class AppUser {
         return regDate;
     }
 
-    public void setRegDate(LocalDate regDate) {
-        this.regDate = regDate;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -89,20 +92,32 @@ public class AppUser {
         this.password = password;
     }
 
-    public Set<AppUserRole> getRoleSet() {
-        return roleSet;
+    public List<AppUserRole> getAppUserRoleList() {
+        return appUserRoleList;
     }
 
-    public void setRoleSet(Set<AppUserRole> roleSet) {
-        this.roleSet = roleSet;
+    public void setAppUserRoleList(List<AppUserRole> appUserRoleList) {
+        this.appUserRoleList = appUserRoleList;
     }
 
-    public Set<TodoItem> getTodoItemList() {
+    public List<TodoItem> getTodoItemList() {
         return todoItemList;
     }
 
-    public void setTodoItemList(Set<TodoItem> todoItemList) {
+    public void setTodoItemList(List<TodoItem> todoItemList) {
         this.todoItemList = todoItemList;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "appUserId=" + appUserId +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", regDate=" + regDate +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     @Override
@@ -110,27 +125,18 @@ public class AppUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return userId == appUser.userId &&
-                Objects.equals(username, appUser.username) &&
+        return appUserId == appUser.appUserId &&
+                Objects.equals(email, appUser.email) &&
                 Objects.equals(firstName, appUser.firstName) &&
                 Objects.equals(lastName, appUser.lastName) &&
                 Objects.equals(regDate, appUser.regDate) &&
-                Objects.equals(password, appUser.password);
+                Objects.equals(password, appUser.password) &&
+                Objects.equals(appUserRoleList, appUser.appUserRoleList) &&
+                Objects.equals(todoItemList, appUser.todoItemList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, firstName, lastName, regDate, password);
-    }
-
-    @Override
-    public String toString() {
-        return "AppUser{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", regDate=" + regDate +
-                '}';
+        return Objects.hash(appUserId, email, firstName, lastName, regDate, password, appUserRoleList, todoItemList);
     }
 }

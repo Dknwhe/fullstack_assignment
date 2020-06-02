@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
 
     <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -11,11 +10,23 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 
     <meta charset="UTF-8">
-    <title>AccessDenied</title>
+    <title>Title</title>
+
 </head>
 <body>
+
+    <nav th:replace="navbar :: Navbar"/>
     <div class="container">
-        <h2>AccessDenied</h2>
+        <table class="table">
+            <tr>
+                <th>User</th>
+                <th>Assign task</th>
+            </tr>
+            <tr th:each="appUser : ${appUserList}">
+                <td th:text="${appUser.email}"></td>
+                <td><a class="btn btn-sm btn-primary" th:href="@{/users/assign/{email} (email=${appUser.getEmail()})}">Assign task</a></td>
+            </tr>
+        </table>
     </div>
 
 </body>
